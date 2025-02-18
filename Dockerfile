@@ -36,10 +36,6 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
-# Run Build Command (./bin/render-build.sh)
-RUN chmod +x ./bin/render-build.sh && \
-    ./bin/render-build.sh
-
 
 # Final stage for app image
 FROM base
@@ -63,4 +59,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ["./bin/rails", "server"]
